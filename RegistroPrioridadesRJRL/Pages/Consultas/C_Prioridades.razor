@@ -1,0 +1,51 @@
+﻿@page "/consultaPrioridad"
+
+
+@inject PrioridadBLL PrioridadBLL
+
+<h1>Consultas de Prioridades</h1>
+
+<p></p>
+
+<div>
+	<a href="/registroPrioridad"><i>Agregar Prioridad</i> </a>
+</div>
+<hr/>
+
+	<table class="table">
+		<thead>
+			<tr>
+				<th>Id</th>
+				<th>Descripcion</th>
+				<th>Dias de Compromiso</th>
+			</tr>
+		</thead>
+
+		<tbody>
+			@foreach(var prioridad in prioridades)
+			{
+			<tr>
+				<td>@prioridad.IdPrioridad</td>
+				<td>@prioridad.Descripcion</td>
+				<td>@prioridad.DiasCompromiso</td>
+			</tr>
+			}
+
+		</tbody>
+
+
+	</table>
+
+@code{
+	public List<Prioridad> prioridades { get; set; } = new List<Prioridad>();
+
+	protected override void OnInitialized()
+	{
+		prioridades = PrioridadBLL.GetList(c => true);
+	}
+
+
+
+
+}
+
