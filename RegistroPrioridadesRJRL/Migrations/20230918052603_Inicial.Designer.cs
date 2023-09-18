@@ -11,7 +11,7 @@ using RegistroPrioridadesRJRL.Models;
 namespace RegistroPrioridadesRJRL.Migrations
 {
     [DbContext(typeof(Context))]
-    [Migration("20230918044230_Inicial")]
+    [Migration("20230918052603_Inicial")]
     partial class Inicial
     {
         /// <inheritdoc />
