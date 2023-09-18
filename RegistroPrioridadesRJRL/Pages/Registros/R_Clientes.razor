@@ -1,0 +1,144 @@
+@page "/registroClientes"
+
+@inject ClientesBLL ClientesBLL
+@inject NavigationManager NavigationManager
+
+<PageTitle>Registro de Clientes</PageTitle>
+
+<h1>Registro de Clientes</h1>
+
+<body>
+    <EditForm model = "Clientes" OnValidSubmit="Guardar">
+        <DataAnnotationsValidator />
+
+        <div class ="container">
+            <div class ="card-header">
+                <h4>Registro</h4>
+            </div>
+            <div class="card-body">
+                <label>ID:</label>
+                <div class="input-group mb-3">
+                    <InputNumber size="3" @bind-Value="cliente.ClienteId" class="form-control" aria-describedby="BotonBuscarId" placeholder="ID"/>
+                    <button @onclick="Buscar" class="btn btn-outline-primary" type="button" id="BotonBuscarId"><i class="oi oi-magnifying-glass" /> </button>
+                </div>
+
+                <div>
+                    <label>Nombre:</label>
+                    <div class="input-group mb-3">
+                       <InputText  @bind-Value="cliente.Nombre" class="form-control" aria-describedby="NombreCliente" placeholder="Nombre" />
+                        <ValidationMessage For="@(() =>cliente.Nombre)" />
+                    </div>
+                </div>
+
+                <div>
+                    <label>Teléfono:</label>
+                    <div class="input-group mb-3">
+                        <InputText type ="tel" @bind-Value="cliente.Telefono" class="form-control" aria-describedby="TelefonoCliente" placeholder="Telefono"></InputText>
+                        <ValidationMessage For="@(() =>cliente.Telefono)" ></ValidationMessage>
+                    </div>
+                </div>
+
+                <div>
+                    <label>Celular:</label>
+                    <div class ="input-group mb-3">
+                        <InputText type ="tel" @bind-Value="cliente.Celular" class="form-control" aria-describedby="CelularCliente" placeholder="Celular"></InputText>
+                        <ValidationMessage For="@(() => cliente.Celular)"></ValidationMessage>
+                    </div>
+                </div>
+
+                <div>
+                    <label>RNC:</label>
+                    <div class="input-group mb-3" >
+                        <InputText @bind-Value ="cliente.Rnc" class="form-control" aria-describedby="RncCliente" placeholder="RNC"></InputText>
+                        <ValidationMessage For="@(() => cliente.Rnc)"></ValidationMessage>
+                    </div>
+                </div>
+                <div>
+                    <label>Email:</label>
+                    <div class="input-group mb-3">
+                        <InputText type ="email" @bind-Value ="cliente.Email" class="form-control" aria-describedby="EmailCliente" placeholder="Correo Electronico"></InputText>
+                        <ValidationMessage For="@(() => cliente.Email)"></ValidationMessage>
+                    </div>
+                </div>
+                <div>
+                    <label>Dirección:</label>
+                    <div class="input-group mb-3">
+                        <InputText @bind-Value="cliente.Direccion" class="form-control" aria-describedby="DireccionCliente" placeholder="Direccion"></InputText>
+                        <ValidationMessage For="@(() => cliente.Direccion)"></ValidationMessage>
+                    </div>
+                </div>
+
+                <div class="card-footer d-flex justify-content-center">
+                    <div class="btn-group">
+                        <button type ="button" class="btn btn-outline-primary" @onclick="Nuevo">Nuevo <i class="oi oi-file" /></button>
+                        <button type ="submit" class="btn btn-outline-success">Guardar <i class ="oi oi-document" /></button>
+                        <button type="button" class="btn btn-outline-danger" @onclick="Eliminar">Eliminar <i class="oi oi-trash" /></button>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+    </EditForm>
+</body>
+
+
+@code 
+{
+    [Parameter]
+    public int ClienteId{get;set;}
+
+    public Clientes cliente {get; set;} = new Clientes();
+
+    public string Mensaje { get; set; } = "";
+
+    public string validandoRnc {get; set;} = string.Empty;
+
+    protected override void OnInitialized()
+    {
+        this.cliente.ClienteId = ClienteId;
+        this.Buscar();
+    }
+
+    public void Nuevo()
+    {
+        this.cliente = new Clientes();
+    }
+
+    public void Guardar(){
+        if(ClientesBLL.ExisteDatos(this.cliente) == false)
+        {
+            return;
+        }
+        if(ClientesBLL.Guardar(this.cliente))
+        {
+            this.Nuevo();
+        }
+        NavigationManager.NavigateTo("/registroClientes");
+    }
+
+    public void Eliminar()
+    {
+        Buscar();
+        if(ClientesBLL.Eliminar(this.cliente))
+        {
+            this.Nuevo();
+        }
+        NavigationManager.NavigateTo("/registroClientes");
+    }
+
+    public void Buscar()
+    {
+        var clienteEncontrado = ClientesBLL.Buscar(cliente.ClienteId);
+
+        if(clienteEncontrado != null)
+        {
+            this.cliente = clienteEncontrado;
+        }
+    }
+
+    public bool Validar()
+    {
+        return cliente.Nombre != null && cliente.Celular != null && cliente.Email != null && cliente.Rnc != null && cliente.Direccion != null && cliente.Telefono != null;
+    }
+}

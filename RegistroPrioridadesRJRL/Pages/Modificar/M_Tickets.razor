@@ -1,0 +1,77 @@
+@page "/editarTickets"
+@page "/editarTickets/{TicketId:int}"
+@inject TicketsBLL TicketsBLL
+@inject NavigationManager NavigationManager
+
+<PageTitle>Modificar Ticket </PageTitle>
+
+<h1>Modificar Ticket</h1>
+
+<EditForm Model="@ticket">
+	<table class ="table">
+		<tr>
+			<td>
+			    Fecha:
+			</td>
+			<td><input class = "form-control col-sm-4" type="text" @bind="ticket.Fecha" /></td>
+
+		</tr>
+		<tr>
+			<td>Solicitado Por:</td>
+			<td><input class="form-control col-sm-4" type="text" @bind="ticket.SolicitadoPor" /></td>
+		</tr>
+
+        <tr>
+			<td>Asunto:</td>
+			<td><input class="form-control col-sm-4" type="text" @bind="ticket.Asunto" /></td>
+		</tr>
+        <tr>
+			<td>Descripcion:</td>
+			<td><input class="form-control col-sm-4" type="text" @bind="ticket.Descripcion" /></td>
+		</tr>
+
+		<br>
+		<tr>
+			<td colspan="2" style ="text-align:center">
+				<button type ="submit"class="btn btn-outline-success" @onclick="Guardar">Guardar <i class ="oi oi-document" /></button>
+				<button type ="submit"class="btn btn-outline-warning" @onclick="Cancelar">Cancelar <i class ="oi oi-warning" /></button>
+			</td>
+		</tr>
+	</table>
+</EditForm>
+
+@code {
+
+	[Parameter]
+	public int TicketId { get; set; }
+
+	private Tickets ticket = new Tickets();
+
+	protected override void OnInitialized()
+	{
+		this.ticket.TicketId = TicketId;
+        this.Buscar();
+	}
+
+	public void Guardar()
+	{
+		TicketsBLL.Guardar(ticket);
+
+		NavigationManager.NavigateTo("/consultaTickets");
+	}
+
+	public void Cancelar()
+	{
+		NavigationManager.NavigateTo("/consultaTickets");
+	}
+
+    public void Buscar()
+    {
+        var ticketEncontrado = TicketsBLL.Buscar(ticket.TicketId);
+
+        if(ticketEncontrado != null)
+        {
+            this.ticket = ticketEncontrado;
+        }
+    }
+}

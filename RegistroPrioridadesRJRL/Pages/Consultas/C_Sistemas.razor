@@ -1,0 +1,56 @@
+@page "/consultaSistemas"
+
+@inject SistemasBLL SistemasBLL
+
+<PageTitle>Consulta de Sistemas</PageTitle>
+
+<h1>Consulta de Sistemas</h1>
+
+<div>
+	<a href="/registroSistemas"><i>Agregar Sistema</i> </a>
+</div>
+<hr/>
+
+<style>
+	table, th, td{
+		border: 1px solid black;
+		border-collapse: collapse;
+	}
+</style>
+
+<body>
+	<table class="table">
+		<thead>
+			<tr bgcolor = "lightgrey">
+				<th>Id sistema</th>
+				<th>Nombre</th>
+			</tr>
+		</thead>
+
+		<tbody>
+			@foreach(var sistema in sistemas)
+			{
+			<tr>
+				<td>@sistema.SistemaId</td>
+				<td>@sistema.Nombre</td>
+				
+				<td><a href="/editarSistemas/@sistema.SistemaId"> <i>Editar</i> </a> </td>
+			</tr>
+			}
+
+		</tbody>
+
+
+	</table>
+
+	</body>
+
+@code{
+    public List<Sistemas> sistemas { get; set; } = new List<Sistemas>();
+    public Sistemas sistema {get; set;} = new Sistemas();
+
+	protected override void OnInitialized()
+	{
+        sistemas = SistemasBLL.GetSistemas(c => true);
+	}
+}

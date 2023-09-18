@@ -1,0 +1,104 @@
+@page "/registroSistemas"
+
+@inject SistemasBLL SistemasBLL
+@inject NavigationManager NavigationManager
+
+<PageTitle>Registro de Sistema</PageTitle>
+
+<h1>Registro de Sistema</h1>
+
+<body>
+    <EditForm model = "Sistemas" OnValidSubmit="Guardar">
+        <DataAnnotationsValidator />
+
+        <div class ="container">
+            <div class ="card-header">
+                <h4>Registro</h4>
+            </div>
+            <div class="card-body">
+                <label>ID:</label>
+                <div class="input-group mb-3">
+                    <InputNumber size="3" @bind-Value="sistemas.SistemaId" class="form-control" aria-describedby="BotonBuscarId"/>
+                    <button @onclick="Buscar" class="btn btn-outline-primary" type="button" id="BotonBuscarId"><i class="oi oi-magnifying-glass" /> </button>
+                </div>
+
+                <div>
+                    <label>Nombre:</label>
+                    <div class="input-group mb-3">
+                       <InputText  @bind-Value="sistemas.Nombre" class="form-control" aria-describedby="NombreCliente" size="10px" />
+                        <ValidationMessage For="@(() =>sistemas.Nombre)" />
+                    </div>
+                </div>
+
+                <div class="card-footer d-flex justify-content-center">
+                    <div class="btn-group">
+                        <button type ="button" class="btn btn-outline-primary" @onclick="Nuevo">Nuevo <i class="oi oi-file" /></button>
+                        <button type ="submit" class="btn btn-outline-success">Guardar <i class ="oi oi-document" /></button>
+                        <button type="button" class="btn btn-outline-danger" @onclick="Eliminar">Eliminar <i class="oi oi-trash" /></button>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+    </EditForm>
+</body>
+
+
+@code 
+{
+    [Parameter]
+    public int SistemaId{get;set;}
+
+    public Sistemas sistemas {get; set;} = new Sistemas();
+
+    public string Mensaje { get; set; } = "";
+
+    protected override void OnInitialized()
+    {
+        this.sistemas.SistemaId = SistemaId;
+        this.Buscar();
+    }
+
+    public void Nuevo()
+    {
+        this.sistemas = new Sistemas();
+    }
+
+    public void Guardar(){
+        if(SistemasBLL.ExisteDatos(this.sistemas) == false)
+        {
+            return;
+        }
+        if(SistemasBLL.Guardar(this.sistemas))
+        {
+            this.Nuevo();
+        }
+        NavigationManager.NavigateTo("/registroSistemas");
+    }
+
+    public void Eliminar()
+    {
+        Buscar();
+        if(SistemasBLL.Eliminar(this.sistemas))
+        {
+            this.Nuevo();
+        }
+        NavigationManager.NavigateTo("/registroSistemas");
+    }
+
+    public void Buscar()
+    {
+        var sistemaEncontrado = SistemasBLL.Buscar(sistemas.SistemaId);
+
+        if(sistemaEncontrado != null)
+        {
+            this.sistemas = sistemaEncontrado;
+        }
+    }
+
+    public bool Validar()
+    {
+        return sistemas.Nombre != null;
+    }
+}

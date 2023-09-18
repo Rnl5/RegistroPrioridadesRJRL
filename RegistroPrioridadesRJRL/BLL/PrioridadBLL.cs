@@ -7,9 +7,9 @@ namespace RegistroPrioridadesRJRL.BLL
 {
 	public class PrioridadBLL
 	{
-		private readonly PrioridadContext _context;
+		private readonly Context _context;
 
-		public PrioridadBLL(PrioridadContext context)
+		public PrioridadBLL(Context context)
 		{
 			_context = context;
 		}

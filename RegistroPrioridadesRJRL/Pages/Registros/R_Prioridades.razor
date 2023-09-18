@@ -116,7 +116,7 @@
 
     public bool Validar()
     {
-        return prioridad.Descripcion != null && prioridad.DiasCompromiso > 0;
+        return prioridad.Descripcion != null && prioridad.DiasCompromiso > 0 && prioridad.DiasCompromiso <= 32;
     }
 
     public void Eliminar()

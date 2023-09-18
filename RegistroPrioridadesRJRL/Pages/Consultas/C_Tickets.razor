@@ -1,0 +1,61 @@
+@page "/consultaTickets"
+
+@inject TicketsBLL TicketsBLL
+
+<PageTitle>Consulta de Tickets</PageTitle>
+
+<h1>Consulta de Tickets</h1>
+
+<div>
+	<a href="/registroTickets"><i>Agregar Tickets</i> </a>
+</div>
+<hr/>
+
+<style>
+	table, th, td{
+		border: 1px solid black;
+		border-collapse: collapse;
+	}
+</style>
+
+<body>
+	<table class="table">
+		<thead>
+			<tr bgcolor = "lightgrey">
+				<th>Id Ticket</th>
+				<th>Fecha</th>
+				<th>Solicitado Por</th>
+                <th>Asunto</th>
+                <th>Descripcion</th>
+			</tr>
+		</thead>
+
+		<tbody>
+			@foreach(var ticket in tickets)
+			{
+			<tr>
+				<td>@ticket.TicketId</td>
+				<td>@ticket.Fecha.ToString("dd/MM/yy")</td>
+				<td>@ticket.SolicitadoPor</td>
+				<td>@ticket.Asunto</td>
+                <td>@ticket.Descripcion</td>
+    			<td><a href="/editarCTickets/@ticket.TicketId"> <i>Editar</i> </a> </td>
+			</tr>
+			}
+
+		</tbody>
+
+
+	</table>
+
+	</body>
+
+@code{
+    public List<Tickets> tickets { get; set; } = new List<Tickets>();
+    public Tickets ticket {get; set;} = new Tickets();
+
+	protected override void OnInitialized()
+	{
+        tickets = TicketsBLL.GetTickets(c => true);
+	}
+}

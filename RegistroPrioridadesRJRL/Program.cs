@@ -1,3 +1,4 @@
+using ClientesRJRL.BLL;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.EntityFrameworkCore;
@@ -24,9 +25,16 @@ namespace RegistroPrioridadesRJRL
 
 			var ConStr = builder.Configuration.GetConnectionString("ConStr");
 
-			builder.Services.AddDbContext<PrioridadContext>(options => options.UseSqlite(ConStr));
+			builder.Services.AddDbContext<Context>(options => options.UseSqlite(ConStr));
 
 			builder.Services.AddScoped<PrioridadBLL>();
+
+			builder.Services.AddScoped<ClientesBLL>();
+
+			builder.Services.AddScoped<TicketsBLL>();
+
+			builder.Services.AddScoped<SistemasBLL>();
+
 
 
 			var app = builder.Build();

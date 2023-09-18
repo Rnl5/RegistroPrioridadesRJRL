@@ -1,0 +1,65 @@
+@page "/editarSistemas"
+@page "/editarSistemas/{SistemaId:int}"
+@inject SistemasBLL SistemasBLL
+@inject NavigationManager NavigationManager
+
+<PageTitle>Modificar Sistema </PageTitle>
+
+<h1>Modificar Sistema</h1>
+
+<EditForm Model="@sistemas">
+	<table class ="table">
+		<tr>
+			<td>
+				Nombre:
+			</td>
+			<td><input class = "form-control col-sm-4" type="text" @bind="sistemas.Nombre" /></td>
+
+		</tr>
+	
+
+		<br>
+		<tr>
+			<td colspan="2" style ="text-align:center">
+				<button type ="submit"class="btn btn-outline-success" @onclick="Guardar">Guardar <i class ="oi oi-document" /></button>
+				<button type ="submit"class="btn btn-outline-warning" @onclick="Cancelar">Cancelar <i class ="oi oi-warning" /></button>
+			</td>
+		</tr>
+	</table>
+</EditForm>
+
+@code {
+
+	[Parameter]
+	public int SistemaId { get; set; }
+
+	private Sistemas sistemas = new Sistemas();
+
+	protected override void OnInitialized()
+	{
+		this.sistemas.SistemaId = SistemaId;
+        this.Buscar();
+	}
+
+	public void Guardar()
+	{
+		SistemasBLL.Guardar(sistemas);
+
+		NavigationManager.NavigateTo("/consultaSistemas");
+	}
+
+	public void Cancelar()
+	{
+		NavigationManager.NavigateTo("/consultaSistemas");
+	}
+
+    public void Buscar()
+    {
+        var sistemaEncontrado = SistemasBLL.Buscar(sistemas.SistemaId);
+
+        if(sistemaEncontrado != null)
+        {
+            this.sistemas = sistemaEncontrado;
+        }
+    }
+}
