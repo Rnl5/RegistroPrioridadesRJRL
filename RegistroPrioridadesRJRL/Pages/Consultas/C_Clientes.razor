@@ -11,18 +11,11 @@
 </div>
 <hr/>
 
-<style>
-	table, th, td{
-		border: 1px solid black;
-		border-collapse: collapse;
-	}
-</style>
-
 <body>
 	<table class="table">
 		<thead>
-			<tr bgcolor = "lightgrey">
-				<th>Id cliente</th>
+			<tr bgcolor = "skyblue">
+				<th >Id cliente</th>
 				<th>Nombre</th>
 				<th>Telefono</th>
                 <th>Celular</th>
@@ -36,7 +29,7 @@
 		<tbody>
 			@foreach(var cliente in clientes)
 			{
-			<tr>
+			<tr bgcolor = "lightgray">
 				<td>@cliente.ClienteId</td>
 				<td>@cliente.Nombre</td>
 				<td>@cliente.Telefono</td>
@@ -47,12 +40,8 @@
 				<td><a href="/editarClientes/@cliente.ClienteId"> <i>Editar</i> </a> </td>
 			</tr>
 			}
-
 		</tbody>
-
-
 	</table>
-
 	</body>
 
 @code{

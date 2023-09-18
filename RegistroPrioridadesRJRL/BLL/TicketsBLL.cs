@@ -3,7 +3,8 @@ using Microsoft.EntityFrameworkCore;
 using Radzen.Blazor.Rendering;
 using RegistroPrioridadesRJRL.Models;
 
-public class TicketsBLL{
+public class TicketsBLL
+{
     private readonly Context _context;
 
     public TicketsBLL(Context context){

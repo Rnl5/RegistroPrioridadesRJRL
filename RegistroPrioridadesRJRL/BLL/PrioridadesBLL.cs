@@ -47,7 +47,6 @@ namespace RegistroPrioridadesRJRL.BLL
 			{
 				return this.Modificar(prioridad);
 			}
-			
 		}
 
 		public bool Eliminar(Prioridades prioridad)
@@ -62,7 +61,6 @@ namespace RegistroPrioridadesRJRL.BLL
 				.Where(p => p.IdPrioridad == IdPrioridad)
 				.AsNoTracking()
 				.SingleOrDefault();
-
 		}
 
 		public List<Prioridades> GetList(Expression<Func<Prioridades, bool>> Criterio)
@@ -77,8 +75,5 @@ namespace RegistroPrioridadesRJRL.BLL
         {
 			return _context.prioridades != null;
         }
-
-
-
     }
 }

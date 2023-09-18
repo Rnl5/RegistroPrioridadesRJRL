@@ -18,9 +18,6 @@ namespace RegistroPrioridadesRJRL
 			builder.Services.AddRazorPages();
 			builder.Services.AddServerSideBlazor();
 
-
-
-
 			var ConStr = builder.Configuration.GetConnectionString("ConStr");
 
 			builder.Services.AddDbContext<Context>(options => options.UseSqlite(ConStr));

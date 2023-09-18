@@ -6,7 +6,6 @@ public class Tickets
     [Key]
     public int TicketId{get; set;}
 
-
     [Required(ErrorMessage ="El campo Fecha es obligatorio")]
     public DateTime Fecha {get; set;}
 
@@ -27,10 +26,4 @@ public class Tickets
 
     [Required(ErrorMessage ="El campo Descripcion se encuentra vacio")]
     public string? Descripcion {get; set;}
-
-
-
-
-
-
 }

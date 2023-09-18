@@ -4,7 +4,8 @@ using System.Linq.Expressions;
 using Microsoft.EntityFrameworkCore;
 using RegistroPrioridadesRJRL.Models;
 
-public class SistemasBLL{
+public class SistemasBLL
+{
     private readonly Context _context;
 
     public SistemasBLL(Context context){
