@@ -13,6 +13,7 @@
 
 <body>
 	<table class="table table-success table-striped">
+		@*Cabecera de la tabla tickets*@
 		<thead>
 			<tr bgcolor = "lightgrey">
 				<th>Id Ticket</th>
@@ -22,7 +23,7 @@
                 <th>Descripcion</th>
 			</tr>
 		</thead>
-
+		@*Cuerpo de la tabla tickets*@
 		<tbody>
 			@foreach(var ticket in tickets)
 			{
@@ -32,16 +33,13 @@
 				<td>@ticket.SolicitadoPor</td>
 				<td>@ticket.Asunto</td>
                 <td>@ticket.Descripcion</td>
-    			<td><a href="/editarCTickets/@ticket.TicketId"> <i>Editar</i> </a> </td>
+    			<td><a href="/editarTickets/@ticket.TicketId"> <i>Editar</i> </a> </td>
 			</tr>
 			}
-
 		</tbody>
-
-
 	</table>
+</body>
 
-	</body>
 
 @code{
     public List<Tickets> tickets { get; set; } = new List<Tickets>();

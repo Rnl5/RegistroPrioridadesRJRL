@@ -8,11 +8,13 @@ public class SistemasBLL
 {
     private readonly Context _context;
 
-    public SistemasBLL(Context context){
+    public SistemasBLL(Context context)
+    {
         _context = context;
     }
     
-    public bool YaExiste(int SistemaId){
+    public bool YaExiste(int SistemaId)
+    {
         return _context.Sistemas.Any(c => c.SistemaId == SistemaId);
     }
 
@@ -22,7 +24,8 @@ public class SistemasBLL
         return _context.SaveChanges() > 0;
     }
 
-    public bool Modificar(Sistemas sistemas){
+    public bool Modificar(Sistemas sistemas)
+    {
         _context.Entry(sistemas).State = EntityState.Modified;
         return _context.SaveChanges() > 0;
     }

@@ -6,7 +6,7 @@ public class Sistemas
     public int SistemaId{get; set;}
 
     [Required (ErrorMessage = "El campo nombre es requerido")]
-    [RegularExpression(@"^[a-z A-Z \s]$",
+    [RegularExpression(@"^[a-zA-Z\s]+$",
     ErrorMessage ="Debe de insertar un nombre valido")]
     public string? Nombre{get; set;}
 }

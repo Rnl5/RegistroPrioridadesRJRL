@@ -7,6 +7,11 @@
 
 <h1>Registro de Clientes</h1>
 
+@if (!string.IsNullOrWhiteSpace(Mensaje))
+{
+    <div class="alert alert-danger">@Mensaje</div>
+}
+
 <body>
     <EditForm model = "Clientes" OnValidSubmit="Guardar">
         <DataAnnotationsValidator />
@@ -18,53 +23,53 @@
             <div class="card-body">
                 <label>ID:</label>
                 <div class="input-group mb-3">
-                    <InputNumber size="3" @bind-Value="cliente.ClienteId" class="form-control" aria-describedby="BotonBuscarId" placeholder="ID"/>
+                    <InputNumber size="3" @bind-Value="clientes.ClienteId" class="form-control" aria-describedby="BotonBuscarId" placeholder="ID"/>
                     <button @onclick="Buscar" class="btn btn-outline-primary" type="button" id="BotonBuscarId"><i class="oi oi-magnifying-glass" /> </button>
                 </div>
 
                 <div>
                     <label>Nombre:</label>
                     <div class="input-group mb-3">
-                       <InputText  @bind-Value="cliente.Nombre" class="form-control" aria-describedby="NombreCliente" placeholder="Nombre" />
-                        <ValidationMessage For="@(() =>cliente.Nombre)" />
+                       <InputText  @bind-Value="clientes.Nombre" class="form-control" aria-describedby="NombreCliente" placeholder="Nombre" />
+                        <ValidationMessage For="@(() =>clientes.Nombre)" />
                     </div>
                 </div>
 
                 <div>
                     <label>Teléfono:</label>
                     <div class="input-group mb-3">
-                        <InputText type ="tel" @bind-Value="cliente.Telefono" class="form-control" aria-describedby="TelefonoCliente" placeholder="Telefono"></InputText>
-                        <ValidationMessage For="@(() =>cliente.Telefono)" ></ValidationMessage>
+                        <InputText type ="tel" @bind-Value="clientes.Telefono" class="form-control" aria-describedby="TelefonoCliente" placeholder="Telefono"></InputText>
+                        <ValidationMessage For="@(() =>clientes.Telefono)" ></ValidationMessage>
                     </div>
                 </div>
 
                 <div>
                     <label>Celular:</label>
                     <div class ="input-group mb-3">
-                        <InputText type ="tel" @bind-Value="cliente.Celular" class="form-control" aria-describedby="CelularCliente" placeholder="Celular"></InputText>
-                        <ValidationMessage For="@(() => cliente.Celular)"></ValidationMessage>
+                        <InputText type ="tel" @bind-Value="clientes.Celular" class="form-control" aria-describedby="CelularCliente" placeholder="Celular"></InputText>
+                        <ValidationMessage For="@(() => clientes.Celular)"></ValidationMessage>
                     </div>
                 </div>
 
                 <div>
                     <label>RNC:</label>
                     <div class="input-group mb-3" >
-                        <InputText @bind-Value ="cliente.Rnc" class="form-control" aria-describedby="RncCliente" placeholder="RNC"></InputText>
-                        <ValidationMessage For="@(() => cliente.Rnc)"></ValidationMessage>
+                        <InputText @bind-Value ="clientes.Rnc" class="form-control" aria-describedby="RncCliente" placeholder="RNC"></InputText>
+                        <ValidationMessage For="@(() => clientes.Rnc)"></ValidationMessage>
                     </div>
                 </div>
                 <div>
                     <label>Email:</label>
                     <div class="input-group mb-3">
-                        <InputText type ="email" @bind-Value ="cliente.Email" class="form-control" aria-describedby="EmailCliente" placeholder="Correo Electronico"></InputText>
-                        <ValidationMessage For="@(() => cliente.Email)"></ValidationMessage>
+                        <InputText type ="email" @bind-Value ="clientes.Email" class="form-control" aria-describedby="EmailCliente" placeholder="Correo Electronico"></InputText>
+                        <ValidationMessage For="@(() => clientes.Email)"></ValidationMessage>
                     </div>
                 </div>
                 <div>
                     <label>Dirección:</label>
                     <div class="input-group mb-3">
-                        <InputText @bind-Value="cliente.Direccion" class="form-control" aria-describedby="DireccionCliente" placeholder="Direccion"></InputText>
-                        <ValidationMessage For="@(() => cliente.Direccion)"></ValidationMessage>
+                        <InputText @bind-Value="clientes.Direccion" class="form-control" aria-describedby="DireccionCliente" placeholder="Direccion"></InputText>
+                        <ValidationMessage For="@(() => clientes.Direccion)"></ValidationMessage>
                     </div>
                 </div>
 
@@ -88,7 +93,7 @@
     [Parameter]
     public int ClienteId{get;set;}
 
-    public Clientes cliente {get; set;} = new Clientes();
+    public Clientes clientes {get; set;} = new Clientes();
 
     public string Mensaje { get; set; } = "";
 
@@ -96,21 +101,33 @@
 
     protected override void OnInitialized()
     {
-        this.cliente.ClienteId = ClienteId;
+        this.clientes.ClienteId = ClienteId;
         this.Buscar();
     }
 
     public void Nuevo()
     {
-        this.cliente = new Clientes();
+        this.clientes = new Clientes();
     }
 
-    public void Guardar(){
-        if(ClientesBLL.ExisteDatos(this.cliente) == false)
+    public void Guardar()
+    {
+        if(string.IsNullOrWhiteSpace(clientes.Nombre) || 
+        string.IsNullOrWhiteSpace(clientes.Telefono) || 
+        string.IsNullOrWhiteSpace(clientes.Celular) ||
+        string.IsNullOrEmpty(clientes.Rnc) ||
+        string.IsNullOrEmpty(clientes.Email) ||
+        string.IsNullOrEmpty(clientes.Direccion))
+        {
+            Mensaje = "Es obligatorio que se rellenen todos los campos";
+            return;
+        }
+
+        if(ClientesBLL.ExisteDatos(this.clientes) == false)
         {
             return;
         }
-        if(ClientesBLL.Guardar(this.cliente))
+        if(ClientesBLL.Guardar(this.clientes))
         {
             this.Nuevo();
         }
@@ -120,7 +137,7 @@
     public void Eliminar()
     {
         Buscar();
-        if(ClientesBLL.Eliminar(this.cliente))
+        if(ClientesBLL.Eliminar(this.clientes))
         {
             this.Nuevo();
         }
@@ -129,16 +146,16 @@
 
     public void Buscar()
     {
-        var clienteEncontrado = ClientesBLL.Buscar(cliente.ClienteId);
+        var clienteEncontrado = ClientesBLL.Buscar(clientes.ClienteId);
 
         if(clienteEncontrado != null)
         {
-            this.cliente = clienteEncontrado;
+            this.clientes = clienteEncontrado;
         }
     }
 
     public bool Validar()
     {
-        return cliente.Nombre != null && cliente.Celular != null && cliente.Email != null && cliente.Rnc != null && cliente.Direccion != null && cliente.Telefono != null;
+        return clientes.Nombre != null && clientes.Celular != null && clientes.Email != null && clientes.Rnc != null && clientes.Direccion != null && clientes.Telefono != null;
     }
 }

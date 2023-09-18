@@ -7,11 +7,13 @@ public class TicketsBLL
 {
     private readonly Context _context;
 
-    public TicketsBLL(Context context){
+    public TicketsBLL(Context context)
+    {
         _context = context;
     }
     
-    public bool YaExiste(int TicketId){
+    public bool YaExiste(int TicketId)
+    {
         return _context.Tickets.Any(c => c.TicketId == TicketId);
     }
 
@@ -21,7 +23,8 @@ public class TicketsBLL
         return _context.SaveChanges() > 0;
     }
 
-    public bool Modificar(Tickets tickets){
+    public bool Modificar(Tickets tickets)
+    {
         _context.Entry(tickets).State = EntityState.Modified;
         return _context.SaveChanges() > 0;
     }

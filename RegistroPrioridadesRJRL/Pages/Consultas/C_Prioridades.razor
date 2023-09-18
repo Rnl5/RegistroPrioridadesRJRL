@@ -13,6 +13,7 @@
 
 <body>
 	<table class="table table-dark table-striped-columns">
+		@*Cabecera de la taba de Prioridades*@
 		<thead>
 			<tr bgcolor = "lightgrey">
 				<th>Id Prioridad</th>
@@ -20,7 +21,7 @@
 				<th>Dias Compromiso</th>
 			</tr>
 		</thead>
-
+		@*Cuerpo de la tabla prioridad*@
 		<tbody>
 			@foreach(var prioridad in prioridades)
 			{
@@ -28,16 +29,13 @@
 				<td>@prioridad.IdPrioridad</td>
 				<td>@prioridad.Descripcion</td>
 				<td>@prioridad.DiasCompromiso</td>
-				<td><a href="/editarClientes/@prioridad.IdPrioridad"> <i>Editar</i> </a> </td>
+				<td><a href="/editarPrioridades/@prioridad.IdPrioridad"> <i>Editar</i> </a> </td>
 			</tr>
 			}
-
 		</tbody>
-
-
 	</table>
+</body>
 
-	</body>
 
 @code{
     public List<Prioridades> prioridades { get; set; } = new List<Prioridades>();

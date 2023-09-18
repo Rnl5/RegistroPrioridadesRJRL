@@ -4,9 +4,14 @@
 @inject PrioridadesBLL  PrioridadesBLL
 @inject NavigationManager NavigationManager
 
-
 <h1>Registro de Prioridades</h1>
 
+@*Mensaje de error*@
+@if (!string.IsNullOrWhiteSpace(Mensaje))
+{
+    <div class="alert alert-danger">@Mensaje</div>
+}
+@*Inicio del formulario*@
 <EditForm model="Prioridad" OnValidSubmit="Guardar">
     <DataAnnotationsValidator />
 
@@ -17,29 +22,29 @@
             </div>
             <div class=card-body>
 
+                @*Prioridad Id*@
                 <div class="col-xs-12 col-sm-12 col-md-8 col-lg-6 col-xl-4">
                     <label>Id Prioridad</label>
                     <div class="input-group mb-3">
-                        <InputNumber @bind-Value="prioridad.IdPrioridad" class="form-control" aria-describedby="BotonBuscar"  />
+                        <InputNumber @bind-Value="prioridades.IdPrioridad" class="form-control" aria-describedby="BotonBuscar"  />
                         <button @onclick="Buscar" class="btn btn-outline-primary" type="button" id="BotonBuscar"><i class="oi oi-magnifying-glass" /></button>
                     </div>
                 </div>
-
+                @*Descripcion de Prioridades*@
                 <div class="mb-3">
                     <label class="form-label" for="Descripcion">Descripcion:</label>
-                    <InputText @bind-Value="prioridad.Descripcion" class="form-control" ></InputText>
-                    <ValidationMessage For="@(()=>prioridad.Descripcion)" />
+                    <InputTextArea @bind-Value="prioridades.Descripcion" class="form-control" ></InputTextArea>
+                    <ValidationMessage For="@(()=>prioridades.Descripcion)" />
                 </div>
-
-               
-
+                @*Dias de Compromiso*@
                 <div class="mb-3">
                     <label class="form-label" for="DiasCompromiso">Dias de compromiso:</label>
-                    <InputNumber @bind-Value="prioridad.DiasCompromiso" class="form-control" ></InputNumber>
-                    <ValidationMessage For="@(()=>prioridad.DiasCompromiso)" />
+                    <InputNumber @bind-Value="prioridades.DiasCompromiso" class="form-control" ></InputNumber>
+                    <ValidationMessage For="@(()=>prioridades.DiasCompromiso)" />
                 </div>
 
             </div>
+            @*Conjunto de Botones*@
             <div class="card-footer d-flex justify-content-center">
                 <div class="btn-group">
                     <button type="button" class="btn btn-outline-primary" @onclick="Nuevo">Nuevo <i class="oi oi-file" /></button>
@@ -49,64 +54,64 @@
             </div>
         </div>
     </div>
-
-
 </EditForm>
-
-
 
 
 @code {
     [Parameter]
     public int IdPrioridad{ get; set; }
-
-    public Prioridades prioridad { get; set; } = new Prioridades();
+    public string Mensaje { get; set; } = "";
+    public Prioridades prioridades { get; set; } = new Prioridades();
 
     protected override void OnInitialized()
     {
         if (IdPrioridad > 0)
         {
-            this.prioridad.IdPrioridad = IdPrioridad;
+            this.prioridades.IdPrioridad = IdPrioridad;
             this.Buscar();
         }
     }
 
     public void Buscar()
     {
-        var prioridadEncontrada = PrioridadesBLL.Buscar(prioridad.IdPrioridad);
+        var prioridadEncontrada = PrioridadesBLL.Buscar(prioridades.IdPrioridad);
         if(prioridadEncontrada != null)
         {
-            this.prioridad = prioridadEncontrada;
+            this.prioridades = prioridadEncontrada;
         }
     }
 
     public void Nuevo()
     {
-        this.prioridad = new Prioridades();
+        this.prioridades = new Prioridades();
     }
 
     public void Repetido()
     {
-
         if (!Validar())
         {
             return;
         }
-        if(prioridad.Descripcion == prioridad.Descripcion)
+        if(prioridades.Descripcion == prioridades.Descripcion)
         {
             this.Eliminar();
         }
     }
 
-
     public void Guardar()
     {
+        if(string.IsNullOrWhiteSpace(prioridades.Descripcion))
+        {
+            Mensaje = "Es obligatorio que se rellenen todos los campos";
+            return;
+        }
+
         if (!Validar())
         {
             return;
         }
 
-        if (PrioridadesBLL.Guardar(this.prioridad))
+        if (PrioridadesBLL.Guardar(this.prioridades))
         {
             this.Nuevo();
             
@@ -116,13 +121,13 @@
 
     public bool Validar()
     {
-        return prioridad.Descripcion != null && prioridad.DiasCompromiso > 0 && prioridad.DiasCompromiso <= 32;
+        return prioridades.Descripcion != null && prioridades.DiasCompromiso > 0 && prioridades.DiasCompromiso <= 32;
     }
 
     public void Eliminar()
     {
         Buscar();
-        if (PrioridadesBLL.Eliminar(this.prioridad))
+        if (PrioridadesBLL.Eliminar(this.prioridades))
         {
             this.Nuevo();
         }

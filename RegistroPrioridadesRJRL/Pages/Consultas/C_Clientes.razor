@@ -13,6 +13,7 @@
 
 <body>
 	<table class="table">
+		@*Cabecera de la tabla clientes*@
 		<thead>
 			<tr bgcolor = "skyblue">
 				<th >Id cliente</th>
@@ -27,6 +28,7 @@
 		</thead>
 
 		<tbody>
+			@*Cuerpo de la tabla clientes*@
 			@foreach(var cliente in clientes)
 			{
 			<tr bgcolor = "lightgray">
@@ -42,7 +44,8 @@
 			}
 		</tbody>
 	</table>
-	</body>
+</body>
+
 
 @code{
     public List<Clientes> clientes { get; set; } = new List<ClientesRJRL.Models.Clientes>();

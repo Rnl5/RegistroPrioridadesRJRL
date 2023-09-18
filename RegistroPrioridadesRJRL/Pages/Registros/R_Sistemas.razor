@@ -7,6 +7,11 @@
 
 <h1>Registro de Sistema</h1>
 
+@if (!string.IsNullOrWhiteSpace(Mensaje))
+{
+    <div class="alert alert-danger">@Mensaje</div>
+}
+
 <body>
     <EditForm model = "Sistemas" OnValidSubmit="Guardar">
         <DataAnnotationsValidator />
@@ -66,6 +71,12 @@
     }
 
     public void Guardar(){
+        if(string.IsNullOrWhiteSpace(sistemas.Nombre))
+        {
+            Mensaje = "Es obligatorio que se rellene el campo Nombre";
+            return;
+        }
+
         if(SistemasBLL.ExisteDatos(this.sistemas) == false)
         {
             return;

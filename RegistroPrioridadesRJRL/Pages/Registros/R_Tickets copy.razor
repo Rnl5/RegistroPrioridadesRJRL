@@ -1,0 +1,147 @@
+@page "/registroTickets"
+
+@inject TicketsBLL TicketsBLL
+@inject NavigationManager NavigationManager
+
+<PageTitle>Registro de Tickets</PageTitle>
+
+<h1>Registro de Tickets</h1>
+
+@if (!string.IsNullOrWhiteSpace(Mensaje))
+{
+    <div class="alert alert-danger">@Mensaje</div>
+}
+
+<body>
+    <EditForm model = "Tickets" OnValidSubmit="Guardar">
+        <DataAnnotationsValidator />
+
+        <div class ="container">
+            <div class ="card-header">
+                <h4>Registro</h4>
+            </div>
+            <div class="card-body">
+
+                <label>ID:</label>
+                <div class="input-group mb-3">
+                    <InputNumber size="3" @bind-Value="tickets.TicketId" class="form-control" aria-describedby="BotonBuscarId"/>
+                    <button @onclick="Buscar" class="btn btn-outline-primary" type="button" id="BotonBuscarId"><i class="oi oi-magnifying-glass" /> </button>
+                </div>
+
+                <div>
+                    <label>Fecha:</label>
+                    <div class="input-group mb-3">
+                        <InputDate @bind-Value="tickets.Fecha" class="form-control" aria-describedby="FechaTicket" size="10px"/>
+                        <ValidationMessage For="@(() =>tickets.Fecha)" ></ValidationMessage>
+                    </div>
+                </div>
+
+                <div>
+                    <label>Solicitado Por:</label>
+                    <div class="input-group mb-3">
+                        <InputText type ="tel" @bind-Value="tickets.SolicitadoPor" class="form-control" aria-describedby="SolicitadoPor"></InputText>
+                        <ValidationMessage For="@(() =>tickets.SolicitadoPor)" ></ValidationMessage>
+                    </div>
+                </div>
+
+                <div>
+                    <label>Asunto:</label>
+                    <div class ="input-group mb-3">
+                        <InputText type ="tel" @bind-Value="tickets.Asunto" class="form-control" aria-describedby="Asunto"></InputText>
+                        <ValidationMessage For="@(() => tickets.Asunto)"></ValidationMessage>
+                    </div>
+                </div>
+
+                <div>
+                    <label>Descripcion:</label>
+                    <div class="input-group mb-3" >
+                        <InputTextArea @bind-Value ="tickets.Descripcion" class="form-control" aria-describedby="Descripcion"></InputTextArea>
+                        <ValidationMessage For="@(() => tickets.Descripcion)"></ValidationMessage>
+                    </div>
+                </div>
+
+                <div class="card-footer d-flex justify-content-center">
+                    <div class="btn-group">
+                        <button type ="button" class="btn btn-outline-primary" @onclick="Nuevo">Nuevo <i class="oi oi-file" /></button>
+                        <button type ="submit" class="btn btn-outline-success">Guardar <i class ="oi oi-document" /></button>
+                        <button type="button" class="btn btn-outline-danger" @onclick="Eliminar">Eliminar <i class="oi oi-trash" /></button>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+    </EditForm>
+</body>
+
+
+@code 
+{
+    [Parameter]
+    public int TicketId{get;set;}
+
+    public Tickets tickets {get; set;} = new Tickets();
+
+    public string Mensaje { get; set; } = "";
+
+    public string validandoRnc {get; set;} = string.Empty;
+
+    protected override void OnInitialized()
+    {
+        this.tickets.TicketId = TicketId;
+        this.Buscar();
+    }
+
+    public void Nuevo()
+    {
+        this.tickets = new Tickets();
+    }
+
+    public void Guardar()
+    {
+        if(string.IsNullOrWhiteSpace(tickets.SolicitadoPor) || 
+        string.IsNullOrWhiteSpace(tickets.Asunto) || 
+        string.IsNullOrWhiteSpace(tickets.Descripcion))
+        {
+            Mensaje = "Es obligatorio que se rellenen todos los campos";
+            return;
+        }
+
+
+        if(TicketsBLL.ExisteDatos(this.tickets) == false)
+        {
+            Mensaje = "Los datos ingresados ya existen";
+            return;
+        }
+        if(TicketsBLL.Guardar(this.tickets))
+        {
+            this.Nuevo();
+        }
+        NavigationManager.NavigateTo("/registroTickets");
+    }
+
+    public void Eliminar()
+    {
+        Buscar();
+        if(TicketsBLL.Eliminar(this.tickets))
+        {
+            this.Nuevo();
+        }
+        NavigationManager.NavigateTo("/registroTickets");
+    }
+
+    public void Buscar()
+    {
+        var ticketEncontrado = TicketsBLL.Buscar(tickets.TicketId);
+
+        if(ticketEncontrado != null)
+        {
+            this.tickets = ticketEncontrado;
+        }
+    }
+
+    /*public bool Validar()
+    {
+        return tickets.Asunto != null && tickets.SolicitadoPor != null && tickets.Descripcion != null;
+    }*/
+}
