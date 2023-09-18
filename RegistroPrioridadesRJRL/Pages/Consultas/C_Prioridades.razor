@@ -1,23 +1,30 @@
-﻿@page "/consultaPrioridad"
-
+﻿@page "/consultaPrioridades"
 
 @inject PrioridadesBLL PrioridadesBLL
 
-<h1>Consultas de Prioridades</h1>
+<PageTitle>Consulta de Prioridades</PageTitle>
 
-<p></p>
+<h1>Consulta de Prioridades</h1>
 
 <div>
-	<a href="/registroPrioridad"><i>Agregar Prioridad</i> </a>
+	<a href="/registroPrioridades"><i>Agregar Prioridad</i> </a>
 </div>
 <hr/>
 
+<style>
+	table, th, td{
+		border: 1px solid black;
+		border-collapse: collapse;
+	}
+</style>
+
+<body>
 	<table class="table">
 		<thead>
-			<tr>
-				<th>Id</th>
+			<tr bgcolor = "lightgrey">
+				<th>Id Prioridad</th>
 				<th>Descripcion</th>
-				<th>Dias de Compromiso</th>
+				<th>Dias Compromiso</th>
 			</tr>
 		</thead>
 
@@ -28,6 +35,7 @@
 				<td>@prioridad.IdPrioridad</td>
 				<td>@prioridad.Descripcion</td>
 				<td>@prioridad.DiasCompromiso</td>
+				<td><a href="/editarClientes/@prioridad.IdPrioridad"> <i>Editar</i> </a> </td>
 			</tr>
 			}
 
@@ -36,11 +44,14 @@
 
 	</table>
 
+	</body>
+
 @code{
-	public List<Prioridades> prioridades { get; set; } = new List<Prioridades>();
+    public List<Prioridades> prioridades { get; set; } = new List<Prioridades>();
+    public Prioridades prioridad {get; set;} = new Prioridades();
 
 	protected override void OnInitialized()
 	{
-		prioridades = PrioridadesBLL.GetList(c => true);
+        prioridades = PrioridadesBLL.GetList(c => true);
 	}
 }
