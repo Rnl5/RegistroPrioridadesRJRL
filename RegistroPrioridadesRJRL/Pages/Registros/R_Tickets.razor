@@ -7,6 +7,11 @@
 
 <h1>Registro de Tickets</h1>
 
+@if (!string.IsNullOrWhiteSpace(Mensaje))
+{
+    <div class="alert alert-danger">@Mensaje</div>
+}
+
 <body>
     <EditForm model = "Tickets" OnValidSubmit="Guardar">
         <DataAnnotationsValidator />
@@ -40,7 +45,7 @@
                 </div>
 
                 <div>
-                    <label>Celular:</label>
+                    <label>Asunto:</label>
                     <div class ="input-group mb-3">
                         <InputText type ="tel" @bind-Value="tickets.Asunto" class="form-control" aria-describedby="Asunto"></InputText>
                         <ValidationMessage For="@(() => tickets.Asunto)"></ValidationMessage>
@@ -48,9 +53,9 @@
                 </div>
 
                 <div>
-                    <label>RNC:</label>
+                    <label>Descripcion:</label>
                     <div class="input-group mb-3" >
-                        <InputText @bind-Value ="tickets.Descripcion" class="form-control" aria-describedby="Descripcion"></InputText>
+                        <InputTextArea @bind-Value ="tickets.Descripcion" class="form-control" aria-describedby="Descripcion"></InputTextArea>
                         <ValidationMessage For="@(() => tickets.Descripcion)"></ValidationMessage>
                     </div>
                 </div>
@@ -92,9 +97,20 @@
         this.tickets = new Tickets();
     }
 
-    public void Guardar(){
+    public void Guardar()
+    {
+        if(string.IsNullOrWhiteSpace(tickets.SolicitadoPor) || 
+        string.IsNullOrWhiteSpace(tickets.Asunto) || 
+        string.IsNullOrWhiteSpace(tickets.Descripcion))
+        {
+            Mensaje = "Es obligatorio que se rellenen todos los campos";
+            return;
+        }
+
+
         if(TicketsBLL.ExisteDatos(this.tickets) == false)
         {
+            Mensaje = "Los datos ingresados ya existen";
             return;
         }
         if(TicketsBLL.Guardar(this.tickets))
