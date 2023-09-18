@@ -12,10 +12,10 @@
 <hr/>
 
 <body>
-	<table class="table table-dark table-striped-columns">
+	<table class="table">
 		@*Cabecera de la tabla sistema*@
 		<thead>
-			<tr bgcolor = "lightgrey">
+			<tr bgcolor = "skyblue">
 				<th>Id sistema</th>
 				<th>Nombre</th>
 			</tr>
@@ -24,7 +24,7 @@
 		<tbody>
 			@foreach(var sistema in sistemas)
 			{
-			<tr>
+			<tr bgcolor = "lightgray">
 				<td>@sistema.SistemaId</td>
 				<td>@sistema.Nombre</td>
 				<td><a href="/editarSistemas/@sistema.SistemaId"> <i>Editar</i> </a> </td>

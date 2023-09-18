@@ -12,10 +12,10 @@
 <hr/>
 
 <body>
-	<table class="table table-success table-striped">
+	<table class="table">
 		@*Cabecera de la tabla tickets*@
 		<thead>
-			<tr bgcolor = "lightgrey">
+			<tr bgcolor = "skyblue">
 				<th>Id Ticket</th>
 				<th>Fecha</th>
 				<th>Solicitado Por</th>
@@ -27,7 +27,7 @@
 		<tbody>
 			@foreach(var ticket in tickets)
 			{
-			<tr>
+			<tr bgcolor = "lightgray">
 				<td>@ticket.TicketId</td>
 				<td>@ticket.Fecha.ToString("dd/MM/yy")</td>
 				<td>@ticket.SolicitadoPor</td>
