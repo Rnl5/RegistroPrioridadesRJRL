@@ -1,7 +1,7 @@
 ﻿@page "/registroPrioridad"
 @page "/registroPrioridad/{IdPrioridad:int}"
 
-@inject PrioridadBLL  PrioridadBLL
+@inject PrioridadesBLL  PrioridadesBLL
 @inject NavigationManager NavigationManager
 
 
@@ -60,7 +60,7 @@
     [Parameter]
     public int IdPrioridad{ get; set; }
 
-    public Prioridad prioridad { get; set; } = new Prioridad();
+    public Prioridades prioridad { get; set; } = new Prioridades();
 
     protected override void OnInitialized()
     {
@@ -73,7 +73,7 @@
 
     public void Buscar()
     {
-        var prioridadEncontrada = PrioridadBLL.Buscar(prioridad.IdPrioridad);
+        var prioridadEncontrada = PrioridadesBLL.Buscar(prioridad.IdPrioridad);
         if(prioridadEncontrada != null)
         {
             this.prioridad = prioridadEncontrada;
@@ -82,7 +82,7 @@
 
     public void Nuevo()
     {
-        this.prioridad = new Prioridad();
+        this.prioridad = new Prioridades();
     }
 
     public void Repetido()
@@ -106,7 +106,7 @@
             return;
         }
 
-        if (PrioridadBLL.Guardar(this.prioridad))
+        if (PrioridadesBLL.Guardar(this.prioridad))
         {
             this.Nuevo();
             
@@ -122,7 +122,7 @@
     public void Eliminar()
     {
         Buscar();
-        if (PrioridadBLL.Eliminar(this.prioridad))
+        if (PrioridadesBLL.Eliminar(this.prioridad))
         {
             this.Nuevo();
         }

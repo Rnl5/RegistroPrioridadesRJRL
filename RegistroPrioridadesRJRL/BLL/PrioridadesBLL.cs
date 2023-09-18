@@ -5,11 +5,11 @@ using System.Linq.Expressions;
 
 namespace RegistroPrioridadesRJRL.BLL
 {
-	public class PrioridadBLL
+	public class PrioridadesBLL
 	{
 		private readonly Context _context;
 
-		public PrioridadBLL(Context context)
+		public PrioridadesBLL(Context context)
 		{
 			_context = context;
 		}
@@ -24,20 +24,20 @@ namespace RegistroPrioridadesRJRL.BLL
 			return _context.prioridades.Any(p => p.Descripcion == descripcion);
 		}
 
-		private bool Insertar(Prioridad prioridad)
+		private bool Insertar(Prioridades prioridad)
 		{
 			_context.prioridades.Add(prioridad);
 			return _context.SaveChanges() > 0;
 		}
 
-		public bool Modificar(Prioridad prioridad)
+		public bool Modificar(Prioridades prioridad)
 		{
 			_context.Entry(prioridad).State = EntityState.Modified;
 			return _context.SaveChanges() > 0;
 
 		}
 
-		public bool Guardar(Prioridad prioridad)
+		public bool Guardar(Prioridades prioridad)
 		{
 			if (!Existe(prioridad.IdPrioridad) && !DescripcionRepetida(prioridad.Descripcion)) 
 			{
@@ -50,13 +50,13 @@ namespace RegistroPrioridadesRJRL.BLL
 			
 		}
 
-		public bool Eliminar(Prioridad prioridad)
+		public bool Eliminar(Prioridades prioridad)
 		{
 			_context.Entry(prioridad).State = EntityState.Deleted;
 			return _context.SaveChanges() > 0;
 		}
 
-		public Prioridad? Buscar(int IdPrioridad)
+		public Prioridades? Buscar(int IdPrioridad)
 		{
 			return _context.prioridades
 				.Where(p => p.IdPrioridad == IdPrioridad)
@@ -65,7 +65,7 @@ namespace RegistroPrioridadesRJRL.BLL
 
 		}
 
-		public List<Prioridad> GetList(Expression<Func<Prioridad, bool>> Criterio)
+		public List<Prioridades> GetList(Expression<Func<Prioridades, bool>> Criterio)
 		{
 			return _context.prioridades
 				.AsNoTracking()

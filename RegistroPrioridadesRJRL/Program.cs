@@ -27,15 +27,13 @@ namespace RegistroPrioridadesRJRL
 
 			builder.Services.AddDbContext<Context>(options => options.UseSqlite(ConStr));
 
-			builder.Services.AddScoped<PrioridadBLL>();
+			builder.Services.AddScoped<PrioridadesBLL>();
 
 			builder.Services.AddScoped<ClientesBLL>();
 
 			builder.Services.AddScoped<TicketsBLL>();
 
 			builder.Services.AddScoped<SistemasBLL>();
-
-
 
 			var app = builder.Build();
 

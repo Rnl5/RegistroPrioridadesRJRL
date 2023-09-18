@@ -41,6 +41,7 @@ namespace RegistroPrioridadesRJRL.Migrations
 
                     b.Property<string>("Rnc")
                         .IsRequired()
+                        .HasMaxLength(11)
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Telefono")
@@ -52,7 +53,7 @@ namespace RegistroPrioridadesRJRL.Migrations
                     b.ToTable("Clientes");
                 });
 
-            modelBuilder.Entity("RegistroPrioridadesRJRL.Models.Prioridad", b =>
+            modelBuilder.Entity("RegistroPrioridadesRJRL.Models.Prioridades", b =>
                 {
                     b.Property<int>("IdPrioridad")
                         .ValueGeneratedOnAdd()

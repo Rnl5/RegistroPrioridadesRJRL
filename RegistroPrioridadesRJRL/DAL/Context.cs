@@ -6,7 +6,7 @@ namespace RegistroPrioridadesRJRL.Models
 {
     public class Context : DbContext
     {
-        public DbSet<Prioridad> prioridades { get; set; }
+        public DbSet<Prioridades> prioridades { get; set; }
 
         public DbSet<Clientes> Clientes {get; set;}
 

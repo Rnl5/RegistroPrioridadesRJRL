@@ -11,7 +11,7 @@ using RegistroPrioridadesRJRL.Models;
 namespace RegistroPrioridadesRJRL.Migrations
 {
     [DbContext(typeof(Context))]
-    [Migration("20230918052603_Inicial")]
+    [Migration("20230918151144_Inicial")]
     partial class Inicial
     {
         /// <inheritdoc />
@@ -44,6 +44,7 @@ namespace RegistroPrioridadesRJRL.Migrations
 
                     b.Property<string>("Rnc")
                         .IsRequired()
+                        .HasMaxLength(11)
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Telefono")
@@ -55,7 +56,7 @@ namespace RegistroPrioridadesRJRL.Migrations
                     b.ToTable("Clientes");
                 });
 
-            modelBuilder.Entity("RegistroPrioridadesRJRL.Models.Prioridad", b =>
+            modelBuilder.Entity("RegistroPrioridadesRJRL.Models.Prioridades", b =>
                 {
                     b.Property<int>("IdPrioridad")
                         .ValueGeneratedOnAdd()

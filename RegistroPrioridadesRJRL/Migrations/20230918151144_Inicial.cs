@@ -20,7 +20,7 @@ namespace RegistroPrioridadesRJRL.Migrations
                     Nombre = table.Column<string>(type: "TEXT", nullable: false),
                     Telefono = table.Column<string>(type: "TEXT", nullable: false),
                     Celular = table.Column<string>(type: "TEXT", nullable: false),
-                    Rnc = table.Column<string>(type: "TEXT", nullable: false),
+                    Rnc = table.Column<string>(type: "TEXT", maxLength: 11, nullable: false),
                     Email = table.Column<string>(type: "TEXT", nullable: false),
                     Direccion = table.Column<string>(type: "TEXT", nullable: false)
                 },

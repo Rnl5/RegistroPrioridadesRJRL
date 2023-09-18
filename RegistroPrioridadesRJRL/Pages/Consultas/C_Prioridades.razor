@@ -1,7 +1,7 @@
 ﻿@page "/consultaPrioridad"
 
 
-@inject PrioridadBLL PrioridadBLL
+@inject PrioridadesBLL PrioridadesBLL
 
 <h1>Consultas de Prioridades</h1>
 
@@ -37,15 +37,10 @@
 	</table>
 
 @code{
-	public List<Prioridad> prioridades { get; set; } = new List<Prioridad>();
+	public List<Prioridades> prioridades { get; set; } = new List<Prioridades>();
 
 	protected override void OnInitialized()
 	{
-		prioridades = PrioridadBLL.GetList(c => true);
+		prioridades = PrioridadesBLL.GetList(c => true);
 	}
-
-
-
-
 }
-
