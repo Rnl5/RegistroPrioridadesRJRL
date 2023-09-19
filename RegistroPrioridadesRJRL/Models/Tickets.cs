@@ -7,7 +7,7 @@ public class Tickets
     public int TicketId{get; set;}
 
     [Required(ErrorMessage ="El campo Fecha es obligatorio")]
-    public DateTime Fecha {get; set;}
+    public DateTime Fecha {get; set;} = DateTime.Now;
 
     [ForeignKey("ClienteId")]
     public int ClienteId {get; set;}
