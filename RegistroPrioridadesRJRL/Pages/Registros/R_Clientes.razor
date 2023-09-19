@@ -93,6 +93,9 @@
     [Parameter]
     public int ClienteId{get;set;}
 
+    //public string Desde {get; set;}
+    //public string Hasta {get; set;}
+
     public Clientes clientes {get; set;} = new Clientes();
 
     public string Mensaje { get; set; } = "";
@@ -103,6 +106,9 @@
     {
         this.clientes.ClienteId = ClienteId;
         this.Buscar();
+
+        //Desde = DateTime.Now.AddMonths(-1);
+        //Hasta = DateTime.Now;
     }
 
     public void Nuevo()
